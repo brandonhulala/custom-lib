@@ -1,0 +1,21 @@
+@import '../../assets/style/variables.less';
+
+.el-picker-panel__sidebar {
+    display: flex;
+    width: 200px;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    & + .el-picker-panel__body {
+        margin-left: 200px;
+    }
+    .el-picker-panel__shortcut {
+        margin: 0 0 10px 10px;
+        padding: 0;
+        border-radius: 5px;
+        background-color: @color-bg;
+        width: 80px;
+        height: 32px;
+        line-height: 32px;
+        text-align: center;
+    }
+}

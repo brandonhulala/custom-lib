@@ -1,0 +1,40 @@
+@import '../../assets/style/variables.less';
+
+.layout{
+    height: 100vh;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    background-color: @color-bg;
+    .top-nav{
+        padding-left: 56px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        color: #666;
+        .text{
+            margin-right: 10px;
+        }
+        .nav-item{
+            .name{
+                &:last-child{
+                    color: #333;
+                    font-weight: bold;
+                }
+                &:not(:last-child):hover{
+                    cursor: pointer;
+                    color: @btn-normal;
+                }
+            }
+            .sep{
+                margin: 0 6px;
+            }
+        }
+    }
+    .content-wrapper{
+        margin: 0 24px 24px 24px;
+        height: ~'calc(100% - 48px)';
+        overflow: auto;
+    }
+}

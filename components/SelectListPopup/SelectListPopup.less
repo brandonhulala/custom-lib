@@ -1,0 +1,115 @@
+@import '../../assets/style/variables.less';
+
+.selectListPopup{
+    max-width: 1080px;
+    margin: 0;
+    position: absolute!important;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+
+    .el-dialog__header{
+        border-bottom: 1px solid @bc-normal;
+        padding: 0;
+        height: 68px;
+        line-height: 68px;
+        .el-dialog__title{
+            font-size: 14px;
+            color: #333;
+            font-weight: bold;
+        }        
+    }
+    .el-dialog__body{
+        margin: 20px;
+        padding: 0!important;
+    }
+    .el-dialog__footer{
+        padding-bottom: 30px;
+    }
+}
+.dialog-search{
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-end;
+    .el-input{
+        width: 200px;
+        .el-input__inner{
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+    }
+    .icon{
+        background-color: @btn-normal;
+        display: inline-block;
+        height: 40px;
+        width: 40px;
+        text-align: center;
+        line-height: 40px;
+        font-size: 15px;
+        color: #fff;
+        cursor: pointer;
+    }
+}
+.dialog-table{
+    border: 1px solid #EBEEF5;
+    border-bottom: none;
+    .el-table__header th{
+        background-color: @color-bg;
+        color: @fc-helper;
+    }
+    .dialog-empty{
+        height: 50px;
+        .noInitData{
+            font-size: 14px;
+            color: #666;
+        }
+    }
+    .dialog-more{
+        height: 50px;
+        .noMoreData{
+            background-color: @color-bg;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            font-size: 14px;
+            color: #999;
+        }
+    }
+}
+.el-table--striped .el-table__body tr.el-table__row--striped td{
+    background-color: @bc-normal; 
+}
+.selected-area{
+    .selected-title{
+        margin: 20px 0 10px 20px;
+        font-size: 14px;
+        color: #374151;
+    }
+    .selected-list{
+        border: 1px solid #EBEEF5;
+        border-radius: 5px;
+        padding: 20px 0 0 20px;
+        display: flex;
+        flex-wrap: wrap;
+        height: 118px;
+        overflow-y: auto;
+        align-content: flex-start;
+        .selected-item{
+            margin: 0 20px 20px 0;
+            background-color: @color-bg;
+            border-radius: 5px;
+            padding: 0 10px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            .name{
+                font-size: 14px;
+                color: #333;
+            }
+            .del{
+                margin-left: 20px;
+                cursor: pointer;
+            }
+        }
+    }
+}
