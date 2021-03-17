@@ -1,7 +1,7 @@
 <!--
  * @Author: huxudong
  * @Date: 2021-02-26 16:44:37
- * @LastEditTime: 2021-03-08 14:18:33
+ * @LastEditTime: 2021-03-17 09:39:58
  * @Description: 可选择的列表弹窗
 -->
 <template>
@@ -13,7 +13,7 @@
                 <!-- 搜索 -->
                 <div class="dialog-search">
                     <el-input placeholder="搜索" :value="searchName" @input="onSearchIpt" @keyup.native.enter="onSearchEnter" />
-                    <span class="icon"><i class="el-icon-zoom-in" @click="onSearchEnter"></i></span>
+                    <span class="icon" @click="onSearchEnter"><i class="el-icon-zoom-in" ></i></span>
                 </div>
                 <!-- 列表 -->
                 <el-table class="dialog-table" ref="dialogTable" height="300px" stripe :data="data" v-scroll-to-end="loadMore" @select="onSelectItem" @select-all="onSelectAll">
@@ -31,7 +31,7 @@
             </div>
             <!-- 选择 -->
             <div class="selected-area">
-                <p class="selected-title">已选择（{{selectedNum}}）</p>
+                <p class="selected-title">已选择（{{selectedResult.length}}）</p>
                 <ul class="selected-list">
                     <li class="selected-item" v-for="(item,index) in this.selectedResult" :key="index">
                         <span class="name">{{item[nameKey]}}</span>
@@ -69,7 +69,6 @@ export default {
         isVisible: Boolean, // 显隐
         title: String, // 标题
         data: Array, // 所有的数据
-        total: Number, // 总长度
         selectedData: Array, // 外部传入的被选中数据
         columns: Array, // 列配置
         idKey: {
@@ -93,17 +92,6 @@ export default {
             isRefreshing: false, // 是否正在刷新数据
             selectedResult: [], // 最终选中的结果
         };
-    },
-    computed: {
-        // 选择的数量
-        selectedNum() {
-            const { selectedResult, total } = this;
-            if (!total) {
-                return selectedResult.length;
-            } else {
-                return selectedResult.length + "/" + total;
-            }
-        },
     },
     watch: {
         // 监听弹窗的显隐

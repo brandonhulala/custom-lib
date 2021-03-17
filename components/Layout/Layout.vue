@@ -1,7 +1,7 @@
 <!--
  * @Author: huxudong
  * @Date: 2021-02-10 10:33:00
- * @LastEditTime: 2021-03-05 09:32:24
+ * @LastEditTime: 2021-03-11 16:31:40
  * @Description: 布局组件
 -->
 <template>
@@ -15,7 +15,7 @@
             </div>
         </div>
         <!-- 内容区域 -->
-        <div class="content-wrapper" v-if="isContent">
+        <div class="view-wrapper" v-if="isContent">
             <router-view />      
         </div>
     </div>
@@ -182,7 +182,5 @@ export default {
 };
 </script>
 
-<style lang="less">
-</style>
-<style src="./Layout.less" lang="less" scoped></style>
+<style src="./Layout.less" lang="less"></style>
 

@@ -1,26 +1,11 @@
 /*
  * @Author: huxudong
  * @Date: 2021-01-11 09:21:19
- * @LastEditTime: 2021-03-08 14:16:14
+ * @LastEditTime: 2021-03-12 13:37:47
  * @Description: 提供与各种文件相关的处理方法
  */
 import XLSX from 'xlsx';
 import jszip from 'jszip';
-
-// 文件扩展名与文件类型的映射关系
-export const MimeType: object = {
-    '.png': 'image/png',
-    '.jpg': 'image/jpeg',
-    '.gif': 'image/gif',
-    '.svg': 'image/svg+xml',
-    '.txt': 'text/plain',
-    '.json': 'application/json',
-    '.doc': 'application/msword',
-    '.docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    '.pdf': 'application/pdf',
-    '.xls': 'application/vnd.ms-excel',
-    '.xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-}
 
 // 获取图片信息
 export function getImageInfo(url: string): Promise<any> {
