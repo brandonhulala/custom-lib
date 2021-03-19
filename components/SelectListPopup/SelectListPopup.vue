@@ -1,7 +1,7 @@
 <!--
  * @Author: huxudong
  * @Date: 2021-02-26 16:44:37
- * @LastEditTime: 2021-03-17 09:39:58
+ * @LastEditTime: 2021-03-19 08:53:58
  * @Description: 可选择的列表弹窗
 -->
 <template>
@@ -52,7 +52,7 @@
 import ElDialog from "element-ui/lib/dialog";
 import ElButton from "element-ui/lib/button";
 import ElInput from "element-ui/lib/input";
-import ElTable from "element-ui/lib/table";
+// import ElTable from "element-ui/lib/table";
 import ElTableColumn from "element-ui/lib/table-column";
 import ElLoading from "element-ui/lib/loading";
 
@@ -62,7 +62,7 @@ export default {
         "el-dialog": ElDialog,
         "el-button": ElButton,
         "el-input": ElInput,
-        "el-table": ElTable,
+        // "el-table": ElTable,
         "el-table-column": ElTableColumn,
     },
     props: {
@@ -96,7 +96,11 @@ export default {
     watch: {
         // 监听弹窗的显隐
         isVisible(newVal) {
-            if (newVal) this.loadInit();
+            if (newVal) {
+                this.loadInit();
+            } else {
+                this.onClear();
+            }
         },
         // 监听传入的所有数据
         data(newVal, oldVal) {
@@ -251,7 +255,7 @@ export default {
         // 点击取消
         onCancel() {
             if (!this.isVisible) return;
-            this.onClear();
+            this.$emit("update:isVisible", false);
             setTimeout(() => {
                 this.$emit("cancel");
             }, 500);
@@ -269,7 +273,6 @@ export default {
         // 清空数据
         onClear() {
             this.searchName = "";
-            this.$emit("update:isVisible", false);
             this.selectedResult = [];
         },
     },
