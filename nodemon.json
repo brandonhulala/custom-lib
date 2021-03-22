@@ -1,0 +1,10 @@
+{
+    "watch": [
+        "index.js",
+        "assets/*",
+        "components/*",
+        "lib/*"
+    ],
+    "ext": "html,css,js,ts,vue,less",
+    "exec": "yalc push"
+}

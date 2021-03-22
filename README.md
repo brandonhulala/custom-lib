@@ -1,7 +1,7 @@
 <!--
  * @Author: huxudong
  * @Date: 2020-12-09 18:38:06
- * @LastEditTime: 2021-03-19 17:12:49
+ * @LastEditTime: 2021-03-22 17:02:43
  * @Description: 使用说明
 -->
 ## 项目结构
@@ -28,20 +28,41 @@
       ```
       registry=http://10.0.5.26:8081/repository/sinosun-front-npm-group/
       ```
-  + 安装第三方依赖
+  + 安装局部的第三方依赖
     ```
     npm install
     ```
-  + 将整个组件包注入到全局
+  + 安装全局的第三方依赖
     ```
-    npm link
+    npm install yalc nodemon npm-run-all -g
+    ```
+  + 在当前项目根目录添加nodemon.json文件
+    ```
+    {
+      "watch": [
+          "index.js",
+          "assets/*",
+          "components/*",
+          "lib/*"
+      ],
+      "ext": "html,css,js,ts,less,scss",
+      "exec": "yalc push"
+    }
+    ```    
+  + 将整个组件包注入到全局，并启用文件监听器
+    ```
+    npm run test
     ```
   + 在指定的前端项目中，引入全局的组件包
     ```
-    npm link sinosun-operation-ui
+    yalc add sinosun-operation-ui
     ```
+  + 如果指定的前端项目需要打包上线，必须先要关闭调试
+    ```
+    yalc remove --all
+    ```  
 
-## 发布
+## 发布到私仓
   + 修改全局npm配置，添加访问私仓的身份令牌，避免每次发布都要登录
     ```
     always-auth=true
@@ -66,6 +87,3 @@
     npm install sinosun-operation-ui --save
     ```
 
-## 注意事项
-  + 使用npm link进行调试时，需要将babel.config.js文件中的@babel/preset-env的modules选项，改成umd
-  + 使用npm link进行调试时，部分第三方组件库会出现问题，此时需要将这些组件的引入代码转移到调试项目中

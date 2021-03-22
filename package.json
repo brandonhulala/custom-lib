@@ -10,22 +10,17 @@
     "registry": "http://10.0.5.26:8081/repository/sinosun-front-npm-hosted"
   },
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --progress --color --config ./build/webpack.dev.config.js",
-    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules --config ./build/webpack.build.config.js"
+    "link": "yalc publish",
+    "watch": "nodemon",
+    "test": "npm-run-all link watch"
   },
   "dependencies": {
     "axios": "^0.16.2",
     "crypto-js": "^4.0.0",
-    "element-ui": "^2.12.0",
     "jszip": "^3.5.0",
     "qs": "^6.9.4",
     "sinosun-jwe": "0.0.1",
-    "vue": "^2.6.11",
-    "vuex": "^3.6.2",
     "xlsx": "^0.15.6"
   },
-  "devDependencies": {
-    "@babel/runtime": "^7.13.9",
-    "autoprefixer": "^9.8.6"
-  }
+  "devDependencies": {}
 }
