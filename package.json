@@ -10,9 +10,7 @@
     "registry": "http://10.0.5.26:8081/repository/sinosun-front-npm-hosted"
   },
   "scripts": {
-    "link": "yalc publish",
-    "watch": "nodemon",
-    "test": "npm-run-all link watch"
+    "link": "yalc publish && nodemon"
   },
   "dependencies": {
     "axios": "^0.16.2",

@@ -14,22 +14,22 @@
         align-items: center;
         font-size: 14px;
         color: #666;
-        .text{
-            margin-right: 10px;
-        }
         .nav-item{
             .name{
+                &.clickable{
+                    cursor: pointer;
+                    &:hover{
+                        color: @btn-normal;         
+                    }
+                }
                 &:last-child{
                     color: #333;
                     font-weight: bold;
                 }
-                &:not(:last-child):hover{
-                    cursor: pointer;
-                    color: @btn-normal;
-                }
             }
             .sep{
                 margin: 0 6px;
+                font-size: 18px;
             }
         }
     }

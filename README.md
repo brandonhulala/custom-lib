@@ -1,7 +1,7 @@
 <!--
  * @Author: huxudong
  * @Date: 2020-12-09 18:38:06
- * @LastEditTime: 2021-03-22 17:02:43
+ * @LastEditTime: 2021-03-22 17:38:23
  * @Description: 使用说明
 -->
 ## 项目结构
@@ -34,7 +34,7 @@
     ```
   + 安装全局的第三方依赖
     ```
-    npm install yalc nodemon npm-run-all -g
+    npm install yalc nodemon -g
     ```
   + 在当前项目根目录添加nodemon.json文件
     ```
@@ -51,15 +51,16 @@
     ```    
   + 将整个组件包注入到全局，并启用文件监听器
     ```
-    npm run test
+    npm run link
     ```
   + 在指定的前端项目中，引入全局的组件包
     ```
     yalc add sinosun-operation-ui
     ```
-  + 如果指定的前端项目需要打包上线，必须先要关闭调试
+  + 如果指定的前端项目需要打包上线，必须移除用于调试的包，然后安装线上的包
     ```
-    yalc remove --all
+    yalc remove sinosun-operation-ui
+    npm install sinosun-operation-ui --save
     ```  
 
 ## 发布到私仓

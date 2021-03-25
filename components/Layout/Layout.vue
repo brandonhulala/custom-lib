@@ -1,17 +1,16 @@
 <!--
  * @Author: huxudong
  * @Date: 2021-02-10 10:33:00
- * @LastEditTime: 2021-03-11 16:31:40
+ * @LastEditTime: 2021-03-25 09:45:55
  * @Description: 布局组件
 -->
 <template>
     <div class="layout">
         <!-- 顶部导航 -->
         <div class="top-nav">
-            <span class="text">当前位置：</span>
             <div class="nav-item" v-for="(navItem,navIndex) in topNav" :key="navIndex">
-                <span class="name" @click="changeTopNav(navItem,navIndex)">{{getRouteText(navItem)}}</span>
-                <span class="sep" v-if="!isTopActive(navIndex)">/</span>
+                <span :class="['name',{clickable: isClickable(navItem,navIndex)}]" @click="changeTopNav(navItem,navIndex)">{{getRouteText(navItem)}}</span>
+                <span class="sep" v-if="navIndex != topNav.length-1">></span>
             </div>
         </div>
         <!-- 内容区域 -->
@@ -29,61 +28,13 @@ export default {
     data() {
         return {
             isContent: true, // 是否显示内容区域
+            topNav: [], // 顶部导航
         };
     },
-    computed: {
-        // 系统参数
-        ...mapState(["systemParam"]),
-        // 顶部导航
-        topNav() {
-            // 获取菜单路由
-            const { menuList, currentMenuId } = this.systemParam;
-            const menuRoutes = [];
-            if (menuList && currentMenuId) {
-                for (const menuItem of menuList) {
-                    const { menuId, childrenMenuList } = menuItem;
-                    if (menuId == currentMenuId) {
-                        menuRoutes.push(menuItem);
-                        break;
-                    } else if (childrenMenuList && childrenMenuList.length) {
-                        const subMenuItem = childrenMenuList.find(
-                            (e) => e.menuId == currentMenuId
-                        );
-                        if (subMenuItem) {
-                            menuRoutes.push(menuItem, subMenuItem);
-                            break;
-                        }
-                    }
-                }
-            }
-
-            // 获取页面路由
-            const pageRoutes = this.$route.matched.filter(
-                (e) => e.meta && e.meta.text
-            );
-
-            return [...menuRoutes, ...pageRoutes];
-        },
-    },
+    computed: mapState(["systemParam"]), // 系统参数
     watch: {
         // 监听路由的跳转
         $route(to, from) {
-            // 将当前页面中的路由变化，同步到父级菜单中
-            const { currentMenuURL } = this.systemParam;
-            if (currentMenuURL) {
-                const idx = currentMenuURL.indexOf("#");
-                let newMenuURL = "";
-                if (idx == -1) {
-                    newMenuURL = currentMenuURL + "#" + to.fullPath;
-                } else {
-                    newMenuURL =
-                        currentMenuURL.substring(0, idx + 1) + to.fullPath;
-                }
-                this.changeSystemParam({
-                    currentMenuURL: newMenuURL,
-                });
-            }
-
             // 如果跳转前后的路由相同，需要刷新内容区域
             if (to.path == from.path) {
                 this.isContent = false;
@@ -91,7 +42,15 @@ export default {
                     this.isContent = true;
                 }, 100);
             }
+            // 否则就改变顶部导航和侧边菜单
+            else {
+                this.changeSideMenu(to);
+                this.generateTopNav();
+            }
         },
+    },
+    created() {
+        this.generateTopNav();
     },
     methods: {
         // 修改系统参数
@@ -146,8 +105,41 @@ export default {
                 return route.meta && route.meta.text;
             }
         },
+        // 生成顶部导航
+        generateTopNav() {
+            const { menuList, currentMenuId } = this.systemParam.get();
+
+            // 获取菜单路由
+            const menuRoutes = [];
+            if (top["CommonApi"] && menuList && currentMenuId) {
+                for (const menuItem of menuList) {
+                    const { menuId, childrenMenuList } = menuItem;
+                    if (menuId == currentMenuId) {
+                        menuRoutes.push(menuItem);
+                        break;
+                    } else if (childrenMenuList && childrenMenuList.length) {
+                        const subMenuItem = childrenMenuList.find(
+                            (e) => e.menuId == currentMenuId
+                        );
+                        if (subMenuItem) {
+                            menuRoutes.push(menuItem, subMenuItem);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // 获取页面路由
+            const pageRoutes = this.$route.matched.filter(
+                (e) => e.meta && e.meta.text
+            );
+
+            this.topNav = [...menuRoutes, ...pageRoutes];
+        },
         // 点击顶部导航
         changeTopNav(route, index) {
+            if (!this.isClickable(route, index)) return;
+
             // 针对菜单路由
             if (route.menuId) {
                 let currentMenuURL = route.url;
@@ -170,13 +162,61 @@ export default {
                 }
             }
             // 针对页面路由
-            else if (!this.isTopActive(index)) {
+            else {
                 this.$router.push(this.getRouteTarget(route));
             }
         },
-        // 顶部导航是否高亮
-        isTopActive(index) {
-            return index == this.topNav.length - 1;
+        // 是否可以点击跳转
+        isClickable(route, index) {
+            // 首个导航
+            if (index == 0) {
+                if (route.childrenMenuList && route.childrenMenuList.length) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+            // 末尾导航
+            else if (index == this.topNav.length - 1) {
+                return false;
+            }
+            // 其他导航
+            else {
+                return true;
+            }
+        },
+        // 改变侧边菜单
+        changeSideMenu(to) {
+            if (!top["CommonApi"]) return;
+
+            const { menuList, currentMenuURL } = this.systemParam.get();
+
+            if (menuList && currentMenuURL) {
+                const idx = currentMenuURL.indexOf("#");
+                let newMenuURL, menuItem;
+
+                if (idx == -1) {
+                    newMenuURL = currentMenuURL + "#" + to.fullPath;
+                } else {
+                    newMenuURL =
+                        currentMenuURL.substring(0, idx + 1) + to.fullPath;
+                }
+
+                for (const e of menuList) {
+                    if (e.childrenMenuList)
+                        menuItem = e.childrenMenuList.find(
+                            (e2) => newMenuURL.indexOf(e2.url) > -1
+                        );
+                    if (menuItem) break;
+                }
+
+                if (menuItem) {
+                    top["CommonApi"].changeMenu({
+                        menuId: menuItem.menuId,
+                        url: newMenuURL,
+                    });
+                }
+            }
         },
     },
 };
