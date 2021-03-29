@@ -211,9 +211,9 @@ export default {
                 }
 
                 if (menuItem) {
-                    top["CommonApi"].changeMenu({
-                        menuId: menuItem.menuId,
-                        url: newMenuURL,
+                    this.changeSystemParam({
+                        currentMenuId: menuItem.menuId,
+                        currentMenuURL: newMenuURL
                     });
                 }
             }
