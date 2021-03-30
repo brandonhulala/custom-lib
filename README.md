@@ -1,21 +1,19 @@
 <!--
  * @Author: huxudong
  * @Date: 2020-12-09 18:38:06
- * @LastEditTime: 2021-03-22 17:38:23
+ * @LastEditTime: 2021-03-30 10:10:18
  * @Description: 使用说明
 -->
 ## 项目结构
 ``` 
  |--lib                       # 公共方法
-    |--NetApi                   # 网络请求
-    |--utils                    # 工具库  
  |--components                # 公共组件
  |--assets                    # 静态资源
  |--index.js                  # 入口文件
  |--packge.json               # 项目配置文件
  |--node_modules              # 第三方依赖
  |--.gitignore                # git忽略的文件列表
- |--postcss.config.js         # postcsss配置文件
+ |--nodemon.json              # nodemon配置文件
 ```
 
 ## 本地调试

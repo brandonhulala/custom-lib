@@ -1,7 +1,7 @@
 <!--
  * @Author: huxudong
  * @Date: 2021-02-10 10:33:00
- * @LastEditTime: 2021-03-25 09:45:55
+ * @LastEditTime: 2021-03-30 09:46:59
  * @Description: 布局组件
 -->
 <template>
@@ -211,9 +211,9 @@ export default {
                 }
 
                 if (menuItem) {
-                    this.changeSystemParam({
-                        currentMenuId: menuItem.menuId,
-                        currentMenuURL: newMenuURL
+                    top["CommonApi"].changeMenu({
+                        menuId: menuItem.menuId,
+                        url: newMenuURL,
                     });
                 }
             }
