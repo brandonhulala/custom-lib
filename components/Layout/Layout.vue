@@ -1,7 +1,7 @@
 <!--
  * @Author: huxudong
  * @Date: 2021-02-10 10:33:00
- * @LastEditTime: 2021-03-30 09:46:59
+ * @LastEditTime: 2021-04-08 15:16:42
  * @Description: 布局组件
 -->
 <template>
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState } from "vuex";
 
 export default {
     name: "Layout",
@@ -31,7 +31,7 @@ export default {
             topNav: [], // 顶部导航
         };
     },
-    computed: mapState(["systemParam"]), // 系统参数
+    computed: mapState(["menuState"]), // 菜单状态
     watch: {
         // 监听路由的跳转
         $route(to, from) {
@@ -53,8 +53,6 @@ export default {
         this.generateTopNav();
     },
     methods: {
-        // 修改系统参数
-        ...mapMutations(["changeSystemParam"]),
         // 获取路由的跳转对象
         getRouteTarget(route) {
             const name = this.getRouteName(route);
@@ -107,7 +105,7 @@ export default {
         },
         // 生成顶部导航
         generateTopNav() {
-            const { menuList, currentMenuId } = this.systemParam.get();
+            const { menuList, currentMenuId } = this.menuState.get();
 
             // 获取菜单路由
             const menuRoutes = [];
@@ -189,9 +187,13 @@ export default {
         changeSideMenu(to) {
             if (!top["CommonApi"]) return;
 
-            const { menuList, currentMenuURL } = this.systemParam.get();
+            const {
+                menuList,
+                currentMenuId,
+                currentMenuURL,
+            } = this.menuState.get();
 
-            if (menuList && currentMenuURL) {
+            if (menuList && currentMenuId && currentMenuURL) {
                 const idx = currentMenuURL.indexOf("#");
                 let newMenuURL, menuItem;
 
@@ -210,7 +212,7 @@ export default {
                     if (menuItem) break;
                 }
 
-                if (menuItem) {
+                if (menuItem && menuItem.menuId != currentMenuId) {
                     top["CommonApi"].changeMenu({
                         menuId: menuItem.menuId,
                         url: newMenuURL,

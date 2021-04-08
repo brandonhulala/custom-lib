@@ -1,7 +1,7 @@
 <!--
  * @Author: huxudong
  * @Date: 2021-02-26 16:44:37
- * @LastEditTime: 2021-03-22 17:41:00
+ * @LastEditTime: 2021-04-07 13:58:10
  * @Description: 可选择的列表弹窗
 -->
 <template>
@@ -12,7 +12,7 @@
             <div class="content-area">
                 <!-- 搜索 -->
                 <div class="dialog-search">
-                    <el-input placeholder="搜索" :value="searchName" @input="onSearchIpt" @keyup.native.enter="onSearchEnter" />
+                    <el-input :placeholder="searchMsg" :value="searchName" @input="onSearchIpt" @keyup.native.enter="onSearchEnter" />
                     <span class="icon" @click="onSearchEnter"><i class="el-icon-zoom-in" ></i></span>
                 </div>
                 <!-- 列表 -->
@@ -22,7 +22,7 @@
                         <template slot-scope="scope">{{!item.getValue ? scope.row[item.prop] : item.getValue(scope.row)}}</template>
                     </el-table-column>
                     <div class="dialog-empty" ref="dialogEmpty" slot="empty" v-show="!isLoadingInit">
-                        <p class="noInitData">暂无数据</p>
+                        <p class="noInitData">{{initMsg}}</p>
                     </div>
                     <div class="dialog-more" ref="dialogMore" slot="append">
                         <p class="noMoreData" v-show="isNoMore">没有更多数据了...</p>
@@ -80,6 +80,16 @@ export default {
             // 每条数据的名称对应的字段名
             type: String,
             default: "name",
+        },
+        searchMsg: {
+            // 搜索输入框为空时的提示文本
+            type: String,
+            default: "请输入",
+        },
+        initMsg: {
+            // 初始化时没有数据的提示信息
+            type: String,
+            default: "暂无数据",
         },
     },
     data() {

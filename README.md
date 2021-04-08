@@ -1,7 +1,7 @@
 <!--
  * @Author: huxudong
  * @Date: 2020-12-09 18:38:06
- * @LastEditTime: 2021-03-30 10:10:18
+ * @LastEditTime: 2021-04-08 15:30:43
  * @Description: 使用说明
 -->
 ## 项目结构
@@ -34,32 +34,24 @@
     ```
     npm install yalc nodemon -g
     ```
-  + 在当前项目根目录添加nodemon.json文件
-    ```
-    {
-      "watch": [
-          "index.js",
-          "assets/*",
-          "components/*",
-          "lib/*"
-      ],
-      "ext": "html,css,js,ts,less,scss",
-      "exec": "yalc push"
-    }
-    ```    
   + 将整个组件包注入到全局，并启用文件监听器
     ```
     npm run link
     ```
-  + 在指定的前端项目中，引入全局的组件包
-    ```
-    yalc add sinosun-operation-ui
-    ```
-  + 如果指定的前端项目需要打包上线，必须移除用于调试的包，然后安装线上的包
-    ```
-    yalc remove sinosun-operation-ui
-    npm install sinosun-operation-ui --save
-    ```  
+  + 在指定的前端项目中
+    - 首先，在package.json文件的scripts中添加2个命令
+       ```
+      "link-ui": "yalc add sinosun-operation-ui",
+      "unlink-ui": "yalc remove sinosun-operation-ui && npm i sinosun-operation-ui -S"
+      ```
+    - 然后，调试本地的包
+      ```
+      npm run link-ui
+      ```
+    - 最后，打包上线的时候，必须移除用于调试的包，然后安装线上的包
+      ```
+      npm run unlink-ui
+      ```  
 
 ## 发布到私仓
   + 修改全局npm配置，添加访问私仓的身份令牌，避免每次发布都要登录
