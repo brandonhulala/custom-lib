@@ -1,7 +1,7 @@
 <!--
  * @Author: huxudong
  * @Date: 2021-02-10 10:33:00
- * @LastEditTime: 2021-04-08 15:16:42
+ * @LastEditTime: 2021-04-09 14:10:19
  * @Description: 布局组件
 -->
 <template>
@@ -35,17 +35,14 @@ export default {
     watch: {
         // 监听路由的跳转
         $route(to, from) {
+            this.generateTopNav();
+
             // 如果跳转前后的路由相同，需要刷新内容区域
             if (to.path == from.path) {
                 this.isContent = false;
                 setTimeout(() => {
                     this.isContent = true;
                 }, 100);
-            }
-            // 否则就改变顶部导航和侧边菜单
-            else {
-                this.changeSideMenu(to);
-                this.generateTopNav();
             }
         },
     },
@@ -105,7 +102,11 @@ export default {
         },
         // 生成顶部导航
         generateTopNav() {
-            const { menuList, currentMenuId } = this.menuState.get();
+            const {
+                menuList,
+                currentMenuId,
+                currentMenuURL,
+            } = this.menuState.get();
 
             // 获取菜单路由
             const menuRoutes = [];
@@ -128,9 +129,25 @@ export default {
             }
 
             // 获取页面路由
-            const pageRoutes = this.$route.matched.filter(
-                (e) => e.meta && e.meta.text
-            );
+            const pageRoutes = this.$route.matched.filter((e) => {
+                if (e.meta && e.meta.text) {
+                    if (!menuRoutes.length) {
+                        return true;
+                    } else {
+                        let newMenuURL;
+                        const idx = currentMenuURL.indexOf("#");
+                        if (idx == -1) {
+                            newMenuURL = currentMenuURL + "#" + e.path;
+                        } else {
+                            newMenuURL =
+                                currentMenuURL.substring(0, idx + 1) + e.path;
+                        }
+                        return !menuRoutes.find((e) => e.url == newMenuURL);
+                    }
+                } else {
+                    return false;
+                }
+            });
 
             this.topNav = [...menuRoutes, ...pageRoutes];
         },
@@ -181,43 +198,6 @@ export default {
             // 其他导航
             else {
                 return true;
-            }
-        },
-        // 改变侧边菜单
-        changeSideMenu(to) {
-            if (!top["CommonApi"]) return;
-
-            const {
-                menuList,
-                currentMenuId,
-                currentMenuURL,
-            } = this.menuState.get();
-
-            if (menuList && currentMenuId && currentMenuURL) {
-                const idx = currentMenuURL.indexOf("#");
-                let newMenuURL, menuItem;
-
-                if (idx == -1) {
-                    newMenuURL = currentMenuURL + "#" + to.fullPath;
-                } else {
-                    newMenuURL =
-                        currentMenuURL.substring(0, idx + 1) + to.fullPath;
-                }
-
-                for (const e of menuList) {
-                    if (e.childrenMenuList)
-                        menuItem = e.childrenMenuList.find(
-                            (e2) => newMenuURL.indexOf(e2.url) > -1
-                        );
-                    if (menuItem) break;
-                }
-
-                if (menuItem && menuItem.menuId != currentMenuId) {
-                    top["CommonApi"].changeMenu({
-                        menuId: menuItem.menuId,
-                        url: newMenuURL,
-                    });
-                }
             }
         },
     },

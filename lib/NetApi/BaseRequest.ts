@@ -1,7 +1,7 @@
 /*
  * @Author: huxudong
  * @Date: 2020-12-09 18:38:14
- * @LastEditTime: 2021-02-24 13:36:51
+ * @LastEditTime: 2021-04-12 10:41:16
  * @Description: 基础请求类，部分参数的获取方法需要在子类中实现
  */
 import Net from './Net';
