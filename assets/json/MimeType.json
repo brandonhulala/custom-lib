@@ -252,6 +252,7 @@
     ".sty": "application/x-sty",
     ".svg": "text/xml",
     ".swf": "application/x-shockwave-flash",
+    ".tar": "application/x-tar",
     ".tdf": "application/x-tdf",
     ".tg4": "application/x-tg4",
     ".tga": "application/x-tga",
@@ -328,5 +329,6 @@
     ".xslt": "text/xml",
     ".xwd": "application/x-xwd",
     ".x_b": "application/x-x_b",
-    ".x_t": "application/x-x_t"
+    ".x_t": "application/x-x_t",
+    ".zip": "application/x-zip-compressed"
 }
